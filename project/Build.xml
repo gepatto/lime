@@ -241,7 +241,7 @@
 				<compilerflag value="-lgbm" />
 
 				<compilerflag value="-Wl,--no-undefined -lm -ldl -ldrm -lpthread -lrt"/>
-				<compilerflag value="-L/opt/vc/lib -lbcm_host" if="rpi3" />
+				<compilerflag value="-L/opt/vc/lib -lbcm_host" if="dispmanx" />
 
 			</section>
 
