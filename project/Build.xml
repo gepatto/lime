@@ -319,6 +319,10 @@
 			<compilerflag value="-DAPPLETV" if="tvos" />
 			<compilerflag value="-DHAVE_STDIO_H" unless="windows" />
 
+			<compilerflag value="-I/usr/include/dbus-1.0" />
+			<compilerflag value="-ldrm" />
+			<compilerflag value="-I/usr/include/libdrm" />
+
 			<file name="src/backend/sdl3/SDLApplication.cpp" />
 			<file name="src/backend/sdl3/SDLGamepad.cpp" />
 			<file name="src/backend/sdl3/SDLJoystick.cpp" />

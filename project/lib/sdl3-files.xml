@@ -1,6 +1,7 @@
 <xml>
     <section unless="SDL_CONFIG_PATH" >
-       <set name="SDL_CONFIG_PATH" value="${NATIVE_TOOLKIT_PATH}/custom/sdl3/linux" if="linux" unless="rpi"/>
+        <set name="SDL_CONFIG_PATH" value="${NATIVE_TOOLKIT_PATH}/custom/sdl3/linux" if="linux" unless="rpi"/>
+        <set name="SDL_CONFIG_PATH" value="${NATIVE_TOOLKIT_PATH}/custom/sdl3/linuxarm64" if="rpi" />
     </section>
 
 
@@ -71,21 +72,40 @@
                <compilerflag value="-mssse3" />
             </section>
 
-            <compilerflag value="-mfpu=neon" if="rpi" />
-
-            <compilerflag value="-mfloat-abi=hard" if="rpi" />
-            <compilerflag value="-I-abi=hard" if="rpi" />
-            <compilerflag value="-I/opt/vc/include" if="rpi" />
-            <compilerflag value="-I/opt/vc/include/interface/vcos/pthreads" if="rpi" />
-            <compilerflag value="-I/opt/vc/include/interface/vmcs_host/linux" if="rpi" />
-            <compilerflag value="-I/usr/include/interface/vcos/pthreads" if="rpi" />
-            <compilerflag value="-I/usr/include/interface/vmcs_host/linux" if="rpi" />
-
             <set name="XINPUT2" value="${NATIVE_TOOLKIT_SDL_X11_XINPUT2}"/>
             <compilerflag value="-DNATIVE_TOOLKIT_SDL_X11_XINPUT2=${XINPUT2}" if="XINPUT2" />
             <compilerflag value="-DNATIVE_TOOLKIT_SDL_X11_XINPUT2_SUPPORTS_MULTITOUCH=${XINPUT2}" if="XINPUT2"/>
             <compilerflag value="-DNATIVE_TOOLKIT_SDL_X11_XINPUT2=0" unless="XINPUT2" />
             <compilerflag value="-DNATIVE_TOOLKIT_SDL_X11_XINPUT2_SUPPORTS_MULTITOUCH=0" unless="XINPUT2"/>
+
+            <!-- Added -->
+            <compilerflag value="-I/usr/include/dbus-1.0" />
+            <compilerflag value="-I/usr/lib/x86_64-linux-gnu/dbus-1.0/include"/>
+            <compilerflag value="-I/usr/include/libdrm" /> <!-- needed for kmsdrm-->
+            <compilerflag value="-I/usr/include/libdecor-0" /> <!-- needed for wayland -->
+        </section>
+
+        <section if="rpi">
+
+            <compilerflag value="-mfpu=neon" unless="HXCPP_ARM64" />
+            <compilerflag value="-mfloat-abi=hard" unless="HXCPP_ARM64" />
+            <compilerflag value="-I-abi=hard" />
+
+            <compilerflag value="-I/opt/vc/include" />
+            <compilerflag value="-I/opt/vc/include/interface/vcos/pthreads" />
+            <compilerflag value="-I/opt/vc/include/interface/vmcs_host/linux" />
+            <compilerflag value="-I/usr/include/dbus-1.0" />
+            <compilerflag value="-I/usr/include/ibus-1.0" />
+            <compilerflag value="-I/usr/include/glib-2.0" />
+            <compilerflag value="-I/usr/include/libusb-1.0/" />
+            <compilerflag value="-I/usr/include/interface/vcos/pthreads" />
+            <compilerflag value="-I/usr/include/interface/vmcs_host/linux" />
+            <compilerflag value="-I/usr/include/libdrm" />
+            <compilerflag value="-I/usr/include/libdecor-0" />
+            <compilerflag value="-I/usr/lib/arm-linux-gnueabihf/dbus-1.0/include" unless="HXCPP_ARM64" />
+            <compilerflag value="-I/usr/lib/aarch64-linux-gnu/dbus-1.0/include" if="HXCPP_ARM64" />
+            <compilerflag value="-I/usr/lib/aarch64-linux-gnu/glib-2.0/include"  if="HXCPP_ARM64" />
+            <compilerflag value="-I/usr/lib/aarch64-linux-gnu/glib-2.0" if="HXCPP_ARM64" />
 
         </section>
 
@@ -336,19 +356,43 @@
 
         </section>
 
-        <section if="LIBSDL_WAYLAND">
+        <section if="">
 
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandclipboard.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylanddatamanager.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandcolor.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylanddyn.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandevents.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandkeyboard.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandmessagebox.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandshmbuffer.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandmouse.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandopengles.c" />
-            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandtouch.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandvideo.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandvulkan.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandwindow.c" />
-
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/alpha-modifier-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/color-management-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/cursor-shape-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/fractional-scale-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/frog-color-management-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/idle-inhibit-unstable-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/input-timestamps-unstable-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/keyboard-shortcuts-inhibit-unstable-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/pointer-constraints-unstable-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/primary-selection-unstable-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/relative-pointer-unstable-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/tablet-v2-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/text-input-unstable-v3-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/viewporter-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/wayland-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/xdg-activation-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/xdg-decoration-unstable-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/xdg-dialog-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/xdg-foreign-unstable-v2-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/xdg-output-unstable-v1-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/xdg-shell-protocol.c"/>
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/xdg-toplevel-icon-v1-protocol.c"/>
         </section>
 
         <section if="LIBSDL_PANDORA">
@@ -358,12 +402,34 @@
 
         </section>
 
-        <section if="LIBSDL_RPI || rpi">
+        <section if="rpi">
+            <!-- enable KMSDRM -->
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/kmsdrm/SDL_kmsdrmvideo.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/kmsdrm/SDL_kmsdrmopengles.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/kmsdrm/SDL_kmsdrmevents.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/kmsdrm/SDL_kmsdrmmouse.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/kmsdrm/SDL_kmsdrmdyn.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/kmsdrm/SDL_kmsdrmvulkan.c" />
+            <!-- END enable KMSDRM -->
 
-            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/raspberry/SDL_rpievents.c" />
-            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/raspberry/SDL_rpimouse.c" />
-            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/raspberry/SDL_rpiopengles.c" />
-            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/raspberry/SDL_rpivideo.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/audio/alsa/SDL_alsa_audio.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/audio/jack/SDL_jackaudio.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/camera/SDL_camera.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/camera/v4l2/SDL_camera_v4l2.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_system_theme.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_fcitx.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_ime.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/haptic/linux/SDL_syshaptic.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/render/SDL_d3dmath.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/storage/steam/SDL_steamstorage.c" />
+
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/gpu/vulkan/SDL_gpu_vulkan.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/render/vulkan/SDL_shaders_vulkan.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/render/vulkan/SDL_render_vulkan.c" />
+
+            <!-- only needed on pi? -->
+
+            <!-- <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11pen.c"/> -->
 
         </section>
 
@@ -402,7 +468,7 @@
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_evdev_capabilities.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_udev.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_dbus.c" />
-            <!--<file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_fcitx.c" />-->
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_fcitx.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_ibus.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_ime.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_threadprio.c" />
@@ -412,6 +478,7 @@
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11clipboard.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11dyn.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11events.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11xfixes.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11framebuffer.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11keyboard.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11messagebox.c" />
@@ -425,6 +492,7 @@
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11vulkan.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11window.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11xinput2.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11xsync.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11pen.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/SDL_x11settings.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/x11/xsettings-client.c" />
@@ -441,6 +509,27 @@
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/dialog/unix/SDL_portaldialog.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/dialog/unix/SDL_zenitydialog.c" />
 
+            <!-- needed to compile but were not enabled-->
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/camera/v4l2/SDL_camera_v4l2.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_ime.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_system_theme.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/gpu/vulkan/SDL_gpu_vulkan.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/render/opengles2/SDL_render_gles2.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/render/opengles2/SDL_shaders_gles2.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/render/vulkan/SDL_shaders_vulkan.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/render/vulkan/SDL_render_vulkan.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/render/SDL_d3dmath.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/SDL_egl.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/storage/steam/SDL_steamstorage.c" />
+
+            <!-- enable KMSDRM not really needed  -->
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/kmsdrm/SDL_kmsdrmvideo.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/kmsdrm/SDL_kmsdrmopengles.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/kmsdrm/SDL_kmsdrmevents.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/kmsdrm/SDL_kmsdrmmouse.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/kmsdrm/SDL_kmsdrmdyn.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/kmsdrm/SDL_kmsdrmvulkan.c" />
+            <!-- END enable KMSDRM -->
         </section>
 
         <section if="windows">
