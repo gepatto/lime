@@ -27,6 +27,7 @@
         <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl3/src/video/khronos" />
         <!--<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl3/../configs" />-->
         <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl3/src" />
+        <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols" />
         <!--<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl3/src/hidapi/hidapi/" />-->
 
         <compilerflag value="-DGL_GLEXT_PROTOTYPES" if="android || rpi" />
@@ -356,7 +357,7 @@
 
         </section>
 
-        <section if="">
+        <section if="LIBSDL_WAYLAND">
 
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandclipboard.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylanddatamanager.c" />
@@ -371,6 +372,7 @@
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandvideo.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandvulkan.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/video/wayland/SDL_waylandwindow.c" />
+
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/alpha-modifier-v1-protocol.c"/>
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/color-management-v1-protocol.c"/>
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/cursor-shape-v1-protocol.c"/>
@@ -393,6 +395,7 @@
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/xdg-output-unstable-v1-protocol.c"/>
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/xdg-shell-protocol.c"/>
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/wayland-generated-protocols/xdg-toplevel-icon-v1-protocol.c"/>
+
         </section>
 
         <section if="LIBSDL_PANDORA">
@@ -511,6 +514,7 @@
 
             <!-- needed to compile but were not enabled-->
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/camera/v4l2/SDL_camera_v4l2.c" />
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_fcitx.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_ime.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/core/linux/SDL_system_theme.c" />
             <file name="${NATIVE_TOOLKIT_PATH}/sdl3/src/gpu/vulkan/SDL_gpu_vulkan.c" />

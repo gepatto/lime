@@ -73,8 +73,9 @@
 /* #undef HAVE_ALTIVEC_H */
 /* #undef HAVE_PTHREAD_NP_H */
 /* #undef HAVE_LIBUDEV_H */
-/* #undef HAVE_DBUS_DBUS_H */
 #define HAVE_DBUS_DBUS_H 1
+#define HAVE_LIBUDEV_H 1
+#define HAVE_LIBDECOR_H 1
 
 /* C library functions */
 #define HAVE_MALLOC 1
@@ -262,12 +263,14 @@
 /* #undef SDL_VIDEO_DRIVER_DIRECTFB_DYNAMIC */
 #define SDL_VIDEO_DRIVER_DUMMY 1
 /* #undef SDL_VIDEO_DRIVER_WINDOWS */
-/* #undef SDL_VIDEO_DRIVER_WAYLAND */
+#define SDL_VIDEO_DRIVER_WAYLAND 1
 /* #undef SDL_VIDEO_DRIVER_WAYLAND_QT_TOUCH */
-/* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC */
-/* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL */
-/* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR */
-/* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON */
+#define SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC "libwayland-client.so.0"
+#define SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR "libwayland-cursor.so.0"
+#define SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL "libwayland-egl.so.1"
+#define SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR "libdecor-0.so.0"
+#define SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON "libxkbcommon.so.0"
+
 /* #undef SDL_VIDEO_DRIVER_MIR */
 /* #undef SDL_VIDEO_DRIVER_MIR_DYNAMIC */
 /* #undef SDL_VIDEO_DRIVER_MIR_DYNAMIC_XKBCOMMON */
@@ -299,7 +302,11 @@
 #define SDL_VIDEO_RENDER_OGL 1
 /* #undef SDL_VIDEO_RENDER_OGL_ES */
 /* #undef SDL_VIDEO_RENDER_OGL_ES2 */
+#define SDL_VIDEO_RENDER_OGL_ES2 1
 /* #undef SDL_VIDEO_RENDER_DIRECTFB */
+#define SDL_VIDEO_RENDER_GPU 1
+#define SDL_VIDEO_OPENGL_EGL 1
+// #define SDL_VIDEO_RENDER_VULKAN 1
 
 /* Enable OpenGL support */
 #define SDL_VIDEO_OPENGL 1
@@ -312,6 +319,7 @@
 /* #undef SDL_VIDEO_OPENGL_WGL */
 /* #undef SDL_VIDEO_OPENGL_OSMESA */
 /* #undef SDL_VIDEO_OPENGL_OSMESA_DYNAMIC */
+
 
 /* Enable system power support */
 #define SDL_POWER_LINUX 1
@@ -331,13 +339,24 @@
 #define SDL_ASSEMBLY_ROUTINES 1
 /* #undef SDL_ALTIVEC_BLITTERS */
 
+/* Enable camera subsystem */
+#define SDL_CAMERA_DRIVER_DUMMY 1
+/* !!! FIXME: for later cmakedefine SDL_CAMERA_DRIVER_DISK 1 */
+#define SDL_CAMERA_DRIVER_V4L2 1
 
 #define SDL_TIME_UNIX 1
 #define SDL_FSOPS_POSIX 1
 #define SDL_PROCESS_POSIX 1
 
+/* Enable ime support */
+#define SDL_USE_IME 1
+
+/* Libdecor version info */
+#define SDL_LIBDECOR_VERSION_MAJOR 0
+#define SDL_LIBDECOR_VERSION_MINOR 2
+#define SDL_LIBDECOR_VERSION_PATCH 2
 
 
- #endif //HX_LINUX
+#endif //HX_LINUX
 
 #endif /* _SDL_config_h */
